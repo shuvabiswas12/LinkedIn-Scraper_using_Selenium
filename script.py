@@ -23,6 +23,7 @@ sleep(1)
 writer = csv.writer(open(parameters.file_name, 'w+'))
 writer.writerow(['Name', 'Job Title', 'Location', 'School', 'LinkedIn Url'])
 
+# email and password if found then this if block works otherwise its skiped ...
 if parameters.email and parameters.password:
     try:
         # If login fields not found in 1st page
@@ -69,7 +70,8 @@ for profile_url in linkedIn_urls:
     driver.get(profile_url)
     sleep(2)
     sel = Selector(text=driver.page_source)
-
+    
+    # email and password if found ...
     if parameters.email and parameters.password:
         print("\nemail found\n")
         name = sel.xpath('//li[@class="inline t-24 t-black t-normal break-words"]/text()').extract_first().strip()
@@ -78,6 +80,7 @@ for profile_url in linkedIn_urls:
         school = sel.xpath('//li[@href="#education-section"]//span[@class="lt-line-clamp__line lt-line-clamp__line--last"]/text()').extract_first()
         if school:
             school = school.strip()
+    # email and password if not found ...
     else:
         print("\nemail not found\n")
         name = sel.xpath('//div[@class="topcard__info-container"]/h1[@class="topcard__name"]/text()').extract_first().strip()
